@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import noteContext from "../context/notes/noteContext";
 import NoteItem from "./NoteItem";
 
 export default function Notes() {
-  const { notes, setNotes } = useContext(noteContext);
+  const { notes, fetchAllNotes } = useContext(noteContext);
+  useEffect(() => {
+    fetchAllNotes();
+  }, []);
+
   return (
     <div className="user-notes mt-5">
       <h2>Your Notes</h2>

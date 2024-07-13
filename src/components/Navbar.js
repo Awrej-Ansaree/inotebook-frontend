@@ -38,7 +38,7 @@ export default function Navbar() {
             data-bs-toggle="modal"
             data-bs-target="#NoteModal"
           >
-            Add Note
+            New Note
           </button>
         </div>
       </div>
