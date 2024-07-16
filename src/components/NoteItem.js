@@ -3,7 +3,7 @@ import noteContext from "../context/notes/noteContext";
 
 export default function NoteItem(props) {
   const { deleteNote } = useContext(noteContext);
-  const { note } = props;
+  const { note, handleEditNote, modalId } = props;
   return (
     <div>
       <div className="col h-100">
@@ -11,7 +11,13 @@ export default function NoteItem(props) {
           <div className="d-flex align-items-center justify-content-between">
             <span className="note-tag bg-primary"> {note.tag} </span>
             <div className="btn-group">
-              <button type="button" className="btn">
+              <button
+                type="button"
+                className="btn"
+                data-bs-toggle="modal"
+                data-bs-target={"#" + modalId}
+                onClick={() => handleEditNote(note)}
+              >
                 <i className="far fa-pen-to-square"></i>
               </button>
               <button

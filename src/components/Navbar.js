@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top">
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
           iNotebook
@@ -32,14 +32,6 @@ export default function Navbar() {
               </NavLink>
             </li>
           </ul>
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#NoteModal"
-          >
-            New Note
-          </button>
         </div>
       </div>
     </nav>

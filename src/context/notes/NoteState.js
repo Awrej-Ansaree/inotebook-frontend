@@ -39,34 +39,45 @@ export default function NoteState(props) {
     });
 
     // Logic to add new note on client side
-    console.log("Adding a new Note...");
-    const note = {
-      _id: "666dcae43118c36a98c4b5376",
-      user: "663d08265b82c1bbef5ebc0e",
-      title: title,
-      tag: tag,
-      description: description,
-      date: "2024-06-15T17:09:56.295Z",
-      __v: 0,
-    };
-    setNotes(notes.concat(note));
+    // console.log("Adding a new Note...");
+    // const note = {
+    //   _id: "666dcae43118c36a98c4b5376",
+    //   user: "663d08265b82c1bbef5ebc0e",
+    //   title: title,
+    //   tag: tag,
+    //   description: description,
+    //   date: "2024-06-15T17:09:56.295Z",
+    //   __v: 0,
+    // };
+    // setNotes(notes.concat(note));
+    fetchAllNotes();
   };
 
   // Delete Note Function
-  const deleteNote = (id) => {
-    // TODO: API Call
-    console.log("Deleting the note with id: " + id);
-    const newNotes = notes.filter((note) => {
-      return note._id !== id;
+  const deleteNote = async (id) => {
+    // API Call
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZDA4MjY1YjgyYzFiYmVmNWViYzBlIn0sImlhdCI6MTcxNTI3NTgxNH0.A0oyjG48AC3i0ENLLRfRK0E241uQ_pED_pjtVrA4clk",
+      },
     });
-    setNotes(newNotes);
+
+    // console.log("Deleting the note with id: " + id);
+    // const newNotes = notes.filter((note) => {
+    //   return note._id !== id;
+    // });
+    // setNotes(newNotes);
+    fetchAllNotes();
   };
 
   // Edit Note Function
   const editNote = async (id, title, tag, description) => {
     // API Call
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token":
@@ -75,17 +86,18 @@ export default function NoteState(props) {
       body: JSON.stringify({ title, tag, description }),
     });
 
-    const json = response.json();
+    // const json = response.json();
 
     // Logic to edit on client side
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element._id === id) {
-        element.title = title;
-        element.tag = tag;
-        element.description = description;
-      }
-    }
+    // for (let index = 0; index < notes.length; index++) {
+    //   const element = notes[index];
+    //   if (element._id === id) {
+    //     element.title = title;
+    //     element.tag = tag;
+    //     element.description = description;
+    //   }
+    // }
+    fetchAllNotes();
   };
 
   return (
