@@ -24,7 +24,7 @@ export default function AddNote() {
       <button
         type="button"
         className="btn btn-primary shadow"
-        style={{ position: "fixed", bottom: 10 + "px", right: 10 + "px" }}
+        style={{ position: "fixed", bottom: 10 + "px", right: 10 + "px", zIndex: "1000" }}
         data-bs-toggle="modal"
         data-bs-target={"#" + modalId}
       >
