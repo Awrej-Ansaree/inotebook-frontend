@@ -1,7 +1,16 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { NavLink, Link } from "react-router-dom";
+import noteContext from "../context/notes/noteContext";
 
 export default function Navbar() {
+  const { showLogout, setShowLogout } = useContext(noteContext);
+  const inotebookUser = localStorage.getItem("inotebookUser");
+  useEffect(() => {
+    if (inotebookUser) {
+      setShowLogout(true);
+    }
+  }, [showLogout]);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top">
       <div className="container-fluid">
@@ -32,6 +41,35 @@ export default function Navbar() {
               </NavLink>
             </li>
           </ul>
+          {!showLogout && (
+            <div className="d-flex">
+              <Link className="btn btn-primary me-3" to="/login" role="button">
+                Login
+              </Link>
+              <Link
+                className="btn btn-outline-primary"
+                to="/signup"
+                role="button"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+          {showLogout && (
+            <div className="d-flex">
+              <Link
+                className="btn btn-primary me-3"
+                to="/login"
+                role="button"
+                onClick={() => {
+                  setShowLogout(false);
+                  localStorage.removeItem("inotebookUser");
+                }}
+              >
+                Logout
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

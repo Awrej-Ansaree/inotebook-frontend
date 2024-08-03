@@ -6,34 +6,40 @@ export default function NoteState(props) {
 
   const [notes, setNotes] = useState([]);
 
+  const [showLogout, setShowLogout] = useState(false);
+
   const fetchAllNotes = async () => {
-    // API Call
-    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZDA4MjY1YjgyYzFiYmVmNWViYzBlIn0sImlhdCI6MTcxNTI3NTgxNH0.A0oyjG48AC3i0ENLLRfRK0E241uQ_pED_pjtVrA4clk",
-      },
-    });
+    if (showLogout) {
+      const inotebookUser = localStorage.getItem("inotebookUser");
+      // API Call
+      const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": inotebookUser,
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const json = await response.json();
+      setNotes(json);
+    } else {
+      setNotes([]);
     }
-
-    const json = await response.json();
-    setNotes(json);
   };
 
   // Add Note Function
   const addNote = async (title, tag, description) => {
+    const inotebookUser = localStorage.getItem("inotebookUser");
     // API Call
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZDA4MjY1YjgyYzFiYmVmNWViYzBlIn0sImlhdCI6MTcxNTI3NTgxNH0.A0oyjG48AC3i0ENLLRfRK0E241uQ_pED_pjtVrA4clk",
+        "auth-token": inotebookUser,
       },
       body: JSON.stringify({ title, tag, description }),
     });
@@ -55,13 +61,13 @@ export default function NoteState(props) {
 
   // Delete Note Function
   const deleteNote = async (id) => {
+    const inotebookUser = localStorage.getItem("inotebookUser");
     // API Call
     const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZDA4MjY1YjgyYzFiYmVmNWViYzBlIn0sImlhdCI6MTcxNTI3NTgxNH0.A0oyjG48AC3i0ENLLRfRK0E241uQ_pED_pjtVrA4clk",
+        "auth-token": inotebookUser,
       },
     });
 
@@ -75,13 +81,13 @@ export default function NoteState(props) {
 
   // Edit Note Function
   const editNote = async (id, title, tag, description) => {
+    const inotebookUser = localStorage.getItem("inotebookUser");
     // API Call
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZDA4MjY1YjgyYzFiYmVmNWViYzBlIn0sImlhdCI6MTcxNTI3NTgxNH0.A0oyjG48AC3i0ENLLRfRK0E241uQ_pED_pjtVrA4clk",
+        "auth-token": inotebookUser,
       },
       body: JSON.stringify({ title, tag, description }),
     });
@@ -102,7 +108,15 @@ export default function NoteState(props) {
 
   return (
     <noteContext.Provider
-      value={{ notes, fetchAllNotes, addNote, deleteNote, editNote }}
+      value={{
+        showLogout,
+        setShowLogout,
+        notes,
+        fetchAllNotes,
+        addNote,
+        deleteNote,
+        editNote,
+      }}
     >
       {props.children}
     </noteContext.Provider>

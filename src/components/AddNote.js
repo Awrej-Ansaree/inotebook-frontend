@@ -3,7 +3,7 @@ import noteContext from "../context/notes/noteContext";
 import NoteForm from "./NoteForm";
 
 export default function AddNote() {
-  const { addNote } = useContext(noteContext);
+  const { addNote, showLogout } = useContext(noteContext);
   const [note, setNote] = useState({ title: "", tag: "", description: "" });
   const modalId = "addNoteModal";
   const handleOnSubmit = () => {
@@ -21,15 +21,22 @@ export default function AddNote() {
         handleOnChange={handleOnChange}
         submitBtnName="Add Note"
       />
-      <button
-        type="button"
-        className="btn btn-primary shadow"
-        style={{ position: "fixed", bottom: 10 + "px", right: 10 + "px", zIndex: "1000" }}
-        data-bs-toggle="modal"
-        data-bs-target={"#" + modalId}
-      >
-        <i className="fa-solid fa-plus"></i>
-      </button>
+      {showLogout && (
+        <button
+          type="button"
+          className="btn btn-primary shadow"
+          style={{
+            position: "fixed",
+            bottom: 10 + "px",
+            right: 10 + "px",
+            zIndex: "1000",
+          }}
+          data-bs-toggle="modal"
+          data-bs-target={"#" + modalId}
+        >
+          <i className="fa-solid fa-plus"></i>
+        </button>
+      )}
     </>
   );
 }
